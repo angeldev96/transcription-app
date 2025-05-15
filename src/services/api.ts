@@ -10,7 +10,7 @@ export async function transcribeVideo(file: File): Promise<TranscriptionResult> 
     formData.append('uploaded_file', file); // The key 'file' matches what the original API endpoint might expect
     
     // Send the request to the example audio transcription endpoint
-    const response = await fetch('https://d662-34-168-143-75.ngrok-free.app/transcribe_video/', {
+    const response = await fetch('https://5884-35-201-150-234.ngrok-free.app/transcribe_video/', {
       method: 'POST',
       body: formData, 
       // Note: For this specific example endpoint, the body/formData is ignored by the server,
