@@ -8,7 +8,7 @@ function formatApiEndpoint(baseUrl: string): string {
   // Remove trailing slashes from base URL
   const cleanBaseUrl = baseUrl.replace(/\/+$/, '');
   // Append the API path with a leading slash
-  return `${cleanBaseUrl}/transcribe_video/`;
+  return `${cleanBaseUrl}/transcribe_video_chunked/`;
 }
 
 export async function transcribeVideo(file: File, apiEndpoint?: string): Promise<TranscriptionResult> {
