@@ -5,6 +5,7 @@ import FileUpload from '@/components/FileUpload';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import TranscriptDisplay from '@/components/TranscriptDisplay';
 import LoadingState from '@/components/LoadingState';
+import ApiEndpointConfig from '@/components/ApiEndpointConfig';
 import { transcribeVideo } from '@/services/api';
 
 export default function Home() {
@@ -12,6 +13,7 @@ export default function Home() {
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [transcript, setTranscript] = useState<string | null>(null);
+  const [apiEndpoint, setApiEndpoint] = useState<string>('https://5884-35-201-150-234.ngrok-free.app');
 
   const handleFileSelect = (selectedFile: File) => {
     if (!selectedFile.type.includes('video/')) {
@@ -34,7 +36,7 @@ export default function Home() {
     setError(null);
     
     try {
-      const result = await transcribeVideo(file);
+      const result = await transcribeVideo(file, apiEndpoint);
       
       if (result.error) {
         setError(result.error);
@@ -72,6 +74,11 @@ export default function Home() {
           <LoadingState fileName={file.name} fileSize={file.size} />
         ) : (
           <form onSubmit={handleSubmit} className="space-y-6">
+            <ApiEndpointConfig 
+              onEndpointChange={setApiEndpoint}
+              defaultEndpoint="https://5884-35-201-150-234.ngrok-free.app"
+            />
+            
             <FileUpload 
               onFileSelect={handleFileSelect}
               selectedFile={file}

@@ -3,14 +3,27 @@ export interface TranscriptionResult {
   error?: string;
 }
 
-export async function transcribeVideo(file: File): Promise<TranscriptionResult> {
+// Utility function to ensure URL is properly formatted
+function formatApiEndpoint(baseUrl: string): string {
+  // Remove trailing slashes from base URL
+  const cleanBaseUrl = baseUrl.replace(/\/+$/, '');
+  // Append the API path with a leading slash
+  return `${cleanBaseUrl}/transcribe_video/`;
+}
+
+export async function transcribeVideo(file: File, apiEndpoint?: string): Promise<TranscriptionResult> {
   try {
     // Create a FormData object to send the file (it will be ignored by this example endpoint, but we send it for consistency with the form)
     const formData = new FormData();
     formData.append('uploaded_file', file); // The key 'file' matches what the original API endpoint might expect
     
+    // Use provided apiEndpoint or fall back to default
+    const baseEndpoint = apiEndpoint || 'https://5884-35-201-150-234.ngrok-free.app';
+    // Format URL with correct path
+    const endpoint = formatApiEndpoint(baseEndpoint);
+    
     // Send the request to the example audio transcription endpoint
-    const response = await fetch('https://5884-35-201-150-234.ngrok-free.app/transcribe_video/', {
+    const response = await fetch(endpoint, {
       method: 'POST',
       body: formData, 
       // Note: For this specific example endpoint, the body/formData is ignored by the server,
